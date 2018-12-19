@@ -1,0 +1,27 @@
+.TextField input {
+  margin: 20px;
+}
+
+.flex-right {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: inherit;
+}
+.input-date {
+  max-width: 30%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.search {
+  max-width: 60%;
+}
+
+.total-booking {
+  font-weight: 500;
+}
