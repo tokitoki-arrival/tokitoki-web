@@ -4,29 +4,14 @@ import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import SearchIcon from "@material-ui/icons/Search";
 
-const check = [
-  { value: "in", label: "check-in" },
-  { value: "out", label: "check-out" }
-];
-
-const filterCategory = [
-  {
-    value: "unit",
-    label: "unit name"
-  },
-  {
-    value: "guest",
-    label: "guest name"
-  }
-];
-
 class ArrivalInput extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      filterCategory: "EUR",
+      filterCategory: "guest",
       check: "in",
-      totalBooking: 20
+      totalBooking: 20,
+      search: ""
     };
   }
 
@@ -37,6 +22,23 @@ class ArrivalInput extends Component {
   };
 
   render() {
+    const check = [
+      { value: "in", label: "check-in" },
+      { value: "out", label: "check-out" }
+    ];
+
+    const filterCategories = [
+      {
+        value: "unit",
+        label: "unit name"
+      },
+      {
+        value: "guest",
+        label: "guest name"
+      }
+    ];
+    const query = this.state.filterCategory === "guest" ? "guestName" : "type";
+
     return (
       <React.Fragment>
         <h1>Arrival List </h1>
@@ -55,7 +57,7 @@ class ArrivalInput extends Component {
                 style={{ marginRight: 10, flex: 1 }}
               />
               <div className="total-booking">
-                Total Booking(s) today : {this.state.totalBooking}{" "}
+                Total Booking(s) today : {this.state.totalBooking}
               </div>
             </div>
             <TextField
@@ -84,8 +86,9 @@ class ArrivalInput extends Component {
                 type="search"
                 margin="normal"
                 style={{ marginRight: 10 }}
+                value={this.state.search}
+                onChange={this.handleChange("search")}
               />
-              <SearchIcon />
               <TextField
                 id="standard-select-filterCategory-native"
                 select
@@ -97,15 +100,27 @@ class ArrivalInput extends Component {
                 }}
                 margin="normal"
               >
-                {filterCategory.map(option => (
+                {filterCategories.map(option => (
                   <option key={option.value} value={option.value}>
                     {option.label}
                   </option>
                 ))}
               </TextField>
+              <button
+                onClick={e => {
+                  this.props.searchBookings(
+                    this.state.filterCategory,
+                    query,
+                    `%${this.state.search}%`
+                  );
+                }}
+                // onClick={console.log(this.props.searchBookings())}
+              >
+                Search
+              </button>
             </div>
             <div className="flex-right">
-              <Button variant="contained" color="primary">
+              <Button variant="contained" color="secondary">
                 Download CSV
               </Button>
             </div>
